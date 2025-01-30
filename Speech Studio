@@ -1,0 +1,25 @@
+import azure.cognitiveservices.speech as speechsdk
+
+# Configurações do serviço de fala
+speech_key = "SUA_CHAVE_DO_SPEECH_SERVICE"
+service_region = "SUA_REGIÃO_DO_SERVIÇO"
+
+# Cria um objeto de configuração de fala
+speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
+
+# Inicializa o reconhecedor de fala
+speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)
+
+# Realiza o reconhecimento de fala
+result = speech_recognizer.recognize_once_async().get()
+
+# Exibe o resultado
+if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+    print("Texto reconhecido: {}".format(result.text))
+elif result.reason == speechsdk.ResultReason.NoMatch:
+    print("Nenhum texto reconhecido.")
+elif result.reason == speechsdk.ResultReason.Canceled:
+    cancellation_details = result.cancellation_details
+    print("Reconhecimento cancelado: {}".format(cancellation_details.reason))
+    if cancellation_details.reason == speechsdk.CancellationReason.Error:
+        print("Detalhes do erro: {}".format(cancellation_details.error_details))
