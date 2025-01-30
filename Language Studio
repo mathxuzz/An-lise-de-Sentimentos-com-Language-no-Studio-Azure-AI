@@ -1,0 +1,18 @@
+from azure.ai.language.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
+
+# Configurações do serviço de análise de texto
+endpoint = "SEU_ENDPOINT_DO_LANGUAGE_SERVICE"
+credential = AzureKeyCredential("SUA_CHAVE_DO_LANGUAGE_SERVICE")
+
+# Cria um cliente de análise de texto
+text_analytics_client = TextAnalyticsClient(endpoint=endpoint, credential=credential)
+
+# Texto de exemplo
+document = ["Eu adoro usar o Azure Speech Studio e o Language Studio!"]
+
+# Analisa o sentimento do texto
+response = text_analytics_client.analyze_sentiment(documents=document)[0]
+
+# Exibe o resultado
+print("Sentimento detectado: {}".format(response.sentiment))
